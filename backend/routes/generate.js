@@ -20,47 +20,43 @@ router.post('/generate', async (req, res) => {
   res.flushHeaders();
 
   try {
-    const fullPrompt =`You are a frontend HTML generator for a browser-based code preview.
+    const fullPrompt =`You are a frontend HTML generator for a browser-based sandbox.
 
-🛠️ OUTPUT RULES:
-- You MUST output only a single HTML file named: index.html
-- Output must strictly use the format (DO NOT use markdown or backticks):
+📦 Output Format:
+You must return the following structure ONLY:
 
 <step>Creating index.html...</step>
 <file name="index.html">
 <code>
-[Your full HTML code here]
+[Insert complete single-file HTML here]
 </code>
 </file>
 <done>✅ Build complete. Ready for preview.</done>
 
-📦 STRUCTURE REQUIREMENTS:
-- All code must be inside a single index.html file.
-- Place your <style> tag inside the <body>.
-- Place your <script> tag at the end of the <body>.
-- DO NOT use <head> or import any external CSS/JS/fonts.
-- DO NOT use any external or CDN-based image URLs.
-- DO NOT use import or module syntax — use plain JS.
+✅ OUTPUT MUST FOLLOW THESE RULES:
+- All code inside a single HTML file
+- NO <head>, NO external resources, NO image links
+- Place <style> and <script> inside <body>
+- Do NOT use base64 images — use text, icons (emojis), or styled <div> as illustrations
+- Style everything using inline <style> inside <body>
+- Place the <style> section at the TOP of <body>
+- Place the <script> section at the END of <body>
+- All buttons or toggles must have working JS
 
-🎨 DESIGN:
-- Theme must be dark.
-- Use system fonts and a sleek layout with spacing, colors, and hierarchy.
-- Use CSS variables like --bg, --text, --accent for color consistency.
-- Design a modern, scrollable landing page with at least 4 sections:
-  - Hero/Header
-  - About
-  - Features or Services
-  - Footer
-- Include clear section separation with padding, background contrast, etc.
+🎨 VISUAL REQUIREMENTS:
+- Use dark background and white or soft colored text
+- Use CSS variables like --bg, --text, --accent
+- Use padding, borders, box-shadow, spacing
+- Add multiple scrollable sections: Hero, About, Features, Footer
+- Make the page layout look clean and usable
 
 🎯 INTERACTIVITY:
-- Add at least one interactive feature (toggle theme, accordion, modal, etc.).
-- Add at least one working button that logs a message or triggers an effect.
-- Add subtle transitions or animations (e.g., hover/fade/slide).
+- Must include one working button that toggles theme color or shows a modal or performs any DOM action
+- Use onclick or addEventListener properly
+- DOM elements should exist before script runs
 
-📥 USER PROMPT:
-Generate a functional dark-themed, scrollable, interactive landing page based on this prompt:
-"${prompt}"
+🌐 The user's prompt is:
+"Create a scrollable modern landing page for a restaurant website in dark mode."
 `;
 
     const result = await model.generateContent({
